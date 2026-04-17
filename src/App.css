@@ -20,7 +20,7 @@
   --radius-md: 16px;
   --radius-lg: 24px;
   --header-h: 60px;
-  --sidebar-w: 115px;
+  --sidebar-w: 96px;
   --font: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
@@ -89,7 +89,7 @@ body {
 .book-section {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 20px 10px;
 }
 
 /* ─── Scrollbar ─── */
