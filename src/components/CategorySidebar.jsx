@@ -31,16 +31,17 @@ function CategorySidebar({ categories, selected, onSelect, counts, total, millie
                 onClick={() => onSelect(cat.id)}
               >
                 {cat.id === 'millie' ? (
-                  <span className="sidebar-icon">
+                  <span className="sidebar-label sidebar-label-millie">
                     <img className="sidebar-millie-logo" src="/millie.png" alt="" />
                   </span>
-                ) : null}
-                <span
-                  className="sidebar-label"
-                  style={!isActive && labelColor ? { color: labelColor } : undefined}
-                >
-                  {cat.label}
-                </span>
+                ) : (
+                  <span
+                    className="sidebar-label"
+                    style={!isActive && labelColor ? { color: labelColor } : undefined}
+                  >
+                    {cat.label}
+                  </span>
+                )}
                 {count > 0 && (
                   <span className="sidebar-badge">{count}</span>
                 )}

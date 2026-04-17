@@ -14,23 +14,38 @@ export async function getBooks() {
 }
 
 export async function addBook({ title, author, category, is_millie }) {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('books')
-    .insert([{ title, author, category, is_millie }])
+    .insert([{ title, author, category, is_millie, is_done: false }])
+    .select('id')
 
   if (error) {
     throw new Error(error.message)
   }
+  if (!data || data.length === 0) {
+    throw new Error('저장이 반영되지 않았어요. (권한/RLS 설정을 확인해 주세요)')
+  }
 }
 
-export async function updateBook(id, { title, author, category, is_millie }) {
-  const { error } = await supabase
+export async function updateBook(id, updates) {
+  const payload = {}
+  if (Object.prototype.hasOwnProperty.call(updates, 'title')) payload.title = updates.title
+  if (Object.prototype.hasOwnProperty.call(updates, 'author')) payload.author = updates.author
+  if (Object.prototype.hasOwnProperty.call(updates, 'category')) payload.category = updates.category
+  if (Object.prototype.hasOwnProperty.call(updates, 'is_millie')) payload.is_millie = updates.is_millie
+  if (Object.prototype.hasOwnProperty.call(updates, 'is_done')) payload.is_done = updates.is_done
+
+  const { data, error } = await supabase
     .from('books')
-    .update({ title, author, category, is_millie })
+    .update(payload)
     .eq('id', id)
+    .select('id')
 
   if (error) {
     throw new Error(error.message)
+  }
+  if (!data || data.length === 0) {
+    throw new Error('수정이 반영되지 않았어요. (권한/RLS 설정을 확인해 주세요)')
   }
 }
 

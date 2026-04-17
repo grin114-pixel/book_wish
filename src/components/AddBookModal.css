@@ -87,12 +87,12 @@
 /* ─── Row Layout ─── */
 .row-two {
   display: grid;
-  grid-template-columns: 1fr 180px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
   align-items: end;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 320px) {
   .row-two {
     grid-template-columns: 1fr;
   }

@@ -2,7 +2,7 @@
   background: var(--color-card-bg);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
-  padding: 16px;
+  padding: 16px 16px 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -23,20 +23,19 @@
 }
 
 .book-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .icon-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 12px;
   background: #fff;
   color: var(--color-text-muted);
-  border: 1px solid rgba(148, 163, 184, 0.24);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   cursor: pointer;
   transition:
     transform 0.16s ease,
@@ -52,14 +51,15 @@
 }
 
 .icon-button svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .icon-button.confirm {
   width: auto;
-  padding: 0 10px;
-  font-size: 12px;
+  padding: 0 8px;
+  height: 28px;
+  font-size: 11px;
   font-weight: 800;
   color: #d97706;
   background: #fef3c7;
@@ -110,16 +110,28 @@
   flex: 1;
 }
 
+.book-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .book-title {
   font-size: 15px;
   font-weight: 700;
   color: var(--color-text);
   line-height: 1.4;
   word-break: keep-all;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-right: 8px;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .millie-title-logo {
@@ -140,11 +152,51 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  margin-top: 7px;
 }
 
 .card-actions-inline {
   display: flex;
-  gap: 6px;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-right: -4px;
+}
+
+/* plain square checkbox */
+.done-checkbox {
+  width: 18px;
+  height: 18px;
+  margin: 0 2px 0 0;
+  cursor: pointer;
+  appearance: none;
+  border-radius: 3px;
+  border: 1.5px solid rgba(148, 163, 184, 0.55);
+  background: #fff;
+  display: inline-grid;
+  place-items: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.done-checkbox:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary-dark);
+}
+
+.done-checkbox:checked::after {
+  content: '✓';
+  color: #222;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.done-checkbox:focus-visible {
+  outline: 3px solid rgba(246, 227, 79, 0.35);
+  outline-offset: 2px;
+}
+
+.done-checkbox-top {
+  margin: 0;
   flex-shrink: 0;
 }
 

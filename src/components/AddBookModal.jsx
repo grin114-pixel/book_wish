@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './AddBookModal.css'
 
-const CATEGORIES = ['자기개발', '국내소설', '외국소설', '에세이', '경제', '인문', '심리', '고전']
+const CATEGORIES = ['자기개발', '심리', '인문', '경제', '국내소설', '외국소설', '에세이', '고전']
 
 function AddBookModal({ onClose, onSubmit, initialBook }) {
   const isEdit = Boolean(initialBook?.id)

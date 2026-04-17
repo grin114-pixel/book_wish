@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import './BookCard.css'
 
 function EditIcon() {
@@ -50,9 +50,57 @@ const CATEGORY_COLORS = {
   고전: { bg: '#fbe9e7', text: '#bf360c', dot: '#ff7043' },
 }
 
-function BookCard({ book, onDelete, onEdit }) {
+function useFitText({ text, depsKey, maxPx = 15, minPx = 11 }) {
+  const ref = useRef(null)
+  const [fontSize, setFontSize] = useState(maxPx)
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return undefined
+
+    let raf = 0
+    const fit = () => {
+      window.cancelAnimationFrame(raf)
+      raf = window.requestAnimationFrame(() => {
+        // reset to max then shrink until it fits
+        let size = maxPx
+        el.style.fontSize = `${size}px`
+
+        // Give layout a moment to apply
+        // eslint-disable-next-line no-unused-expressions
+        el.offsetWidth
+
+        while (size > minPx && el.scrollWidth > el.clientWidth) {
+          size -= 1
+          el.style.fontSize = `${size}px`
+        }
+
+        setFontSize(size)
+      })
+    }
+
+    fit()
+
+    const ro = new ResizeObserver(() => fit())
+    ro.observe(el)
+    return () => {
+      window.cancelAnimationFrame(raf)
+      ro.disconnect()
+    }
+  }, [text, depsKey, maxPx, minPx])
+
+  return { ref, fontSize }
+}
+
+function BookCard({ book, onDelete, onEdit, onToggleDone }) {
   const [confirmDelete, setConfirmDelete] = useState(false)
   const color = CATEGORY_COLORS[book.category] || { bg: '#f5f5f5', text: '#555', dot: '#aaa' }
+  const { ref: titleRef } = useFitText({
+    text: book.title,
+    depsKey: book.is_millie ? 'millie' : 'normal',
+    maxPx: 15,
+    minPx: 11,
+  })
 
   const handleDelete = () => {
     if (confirmDelete) {
@@ -66,12 +114,22 @@ function BookCard({ book, onDelete, onEdit }) {
   return (
     <div className="book-card" style={{ '--card-accent': color.dot }}>
       <div className="book-card-body">
-        <h3 className="book-title">
-          {book.is_millie && (
-            <img className="millie-title-logo" src="/millie.png" alt="밀리의 서재" />
-          )}
-          {book.title}
-        </h3>
+        <div className="book-title-row">
+          <h3 ref={titleRef} className="book-title">
+            {book.is_millie && (
+              <img className="millie-title-logo" src="/millie.png" alt="밀리의 서재" />
+            )}
+            {book.title}
+          </h3>
+          <input
+            className="done-checkbox done-checkbox-top"
+            type="checkbox"
+            checked={Boolean(book.is_done)}
+            onChange={(e) => onToggleDone?.(book.id, e.target.checked)}
+            aria-label="완료 체크"
+            title="완료"
+          />
+        </div>
         <div className="book-meta-row">
           <p className="book-author">{book.author || '\u00A0'}</p>
           <div className="card-actions-inline">

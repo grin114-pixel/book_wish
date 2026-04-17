@@ -1,7 +1,7 @@
 import BookCard from './BookCard'
 import './BookList.css'
 
-function BookList({ books, loading, onDelete, onEdit }) {
+function BookList({ books, loading, onDelete, onEdit, onToggleDone }) {
   if (loading) {
     return (
       <div className="booklist-state">
@@ -24,7 +24,13 @@ function BookList({ books, loading, onDelete, onEdit }) {
   return (
     <div className="booklist-grid">
       {books.map((book) => (
-        <BookCard key={book.id} book={book} onDelete={onDelete} onEdit={onEdit} />
+        <BookCard
+          key={book.id}
+          book={book}
+          onDelete={onDelete}
+          onEdit={onEdit}
+          onToggleDone={onToggleDone}
+        />
       ))}
     </div>
   )

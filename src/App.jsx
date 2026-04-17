@@ -9,14 +9,14 @@ import './App.css'
 export const CATEGORIES = [
   { id: 'all', label: '전체보기' },
   { id: '자기개발', label: '자기개발' },
+  { id: '심리', label: '심리' },
+  { id: '인문', label: '인문' },
+  { id: '경제', label: '경제' },
   { id: '국내소설', label: '국내소설' },
   { id: '외국소설', label: '외국소설' },
   { id: '에세이', label: '에세이' },
-  { id: '경제', label: '경제' },
-  { id: '인문', label: '인문' },
-  { id: '심리', label: '심리' },
   { id: '고전', label: '고전' },
-  { id: 'millie', label: '밀리의 서재' },
+  { id: 'millie', label: '밀리' },
 ]
 
 function App() {
@@ -44,12 +44,19 @@ function App() {
     return () => window.clearTimeout(id)
   }, [statusMessage])
 
-  const filteredBooks =
+  const visibleBooks =
     selectedCategory === 'all'
       ? books
       : selectedCategory === 'millie'
         ? books.filter((b) => b.is_millie)
         : books.filter((b) => b.category === selectedCategory)
+
+  const filteredBooks = [...visibleBooks].sort((a, b) => {
+    const ad = a.is_done ? 1 : 0
+    const bd = b.is_done ? 1 : 0
+    if (ad !== bd) return bd - ad
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  })
 
   const handleSaveBook = async (bookData) => {
     try {
@@ -74,6 +81,17 @@ function App() {
   const handleDeleteBook = async (id) => {
     await deleteBook(id)
     setBooks((prev) => prev.filter((b) => b.id !== id))
+  }
+
+  const handleToggleDone = async (id, next) => {
+    setBooks((prev) => prev.map((b) => (b.id === id ? { ...b, is_done: next } : b)))
+    try {
+      await updateBook(id, { is_done: next })
+    } catch (e) {
+      setBooks((prev) => prev.map((b) => (b.id === id ? { ...b, is_done: !next } : b)))
+      const message = e instanceof Error ? e.message : '저장에 실패했어요.'
+      setStatusMessage(`저장 실패: ${message}`)
+    }
   }
 
   const countsByCategory = books.reduce((acc, b) => {
@@ -127,6 +145,7 @@ function App() {
             books={filteredBooks}
             loading={loading}
             onDelete={handleDeleteBook}
+            onToggleDone={handleToggleDone}
             onEdit={(book) => {
               setEditingBook(book)
               setIsModalOpen(true)

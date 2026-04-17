@@ -7,6 +7,7 @@ create table if not exists public.books (
   author      text,
   category    text not null check (category in ('자기개발','국내소설','외국소설','에세이','경제','인문','심리','고전')),
   is_millie   boolean not null default false,
+  is_done     boolean not null default false,
   created_at  timestamptz not null default now()
 );
 
