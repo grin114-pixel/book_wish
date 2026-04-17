@@ -1,0 +1,107 @@
+:root {
+  --color-bg: #fffdf2;
+  --color-primary: #f6e34f;
+  --color-primary-light: #fff6b8;
+  --color-primary-dark: #c5a700;
+  --color-accent: #222222;
+  --color-accent-light: #f1f1f1;
+  --color-lavender: #d4b8f0;
+  --color-mint: #b8e8d8;
+  --color-yellow: #fde9b0;
+  --color-text: #1f1f1f;
+  --color-text-muted: #6a6a6a;
+  --color-card-bg: #ffffff;
+  --color-border: #efe7b0;
+  --color-sidebar-bg: #fff8cc;
+  --shadow-sm: 0 2px 8px rgba(34, 34, 34, 0.08);
+  --shadow-md: 0 4px 20px rgba(34, 34, 34, 0.12);
+  --shadow-lg: 0 8px 32px rgba(34, 34, 34, 0.16);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --header-h: 60px;
+  --sidebar-w: 144px;
+  --font: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  height: 100%;
+}
+
+/* ─── App Shell ─── */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100dvh;
+}
+
+/* ─── Header ─── */
+.app-header {
+  height: var(--header-h);
+  background: linear-gradient(135deg, #fff6b8 0%, #ffffff 100%);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 22px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.3px;
+}
+
+/* ─── Main Layout ─── */
+.app-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ─── Book Section ─── */
+.book-section {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 10px;
+}
